@@ -28,7 +28,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      poolname: azdevopsagent
+      name: azdevopsagent
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -52,7 +52,7 @@ stages:
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
     pool:
-      poolname: azdevopsagent
+      pool: azdevopsagent
     environment: 'quochungdangptitpipelinesjavascriptdocker-1935.default'
     strategy:
       runOnce:
@@ -81,7 +81,7 @@ stages:
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     pool:
-      poolname: azdevopsagent
+      pool: azdevopsagent
 
     environment: 'quochungdangptitpipelinesjavascriptdocker-1935.$(k8sNamespaceForPR)'
     strategy:
