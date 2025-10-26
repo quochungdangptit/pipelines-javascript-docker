@@ -24,9 +24,26 @@ variables:
   # Name of the new namespace being created to deploy the PR changes.
   k8sNamespaceForPR: 'review-app-$(System.PullRequest.PullRequestId)'
 
+
+
 stages:
+- stage: InstallDocker
+  displayName: Install Docker stage
+  jobs:
+    - job: InstallDocker
+      displayName: Install Docker job
+      pool:
+        name: azdevopsagent
+      steps:
+      - task: DockerInstaller@0
+        displayName: Docker Installer
+        inputs:
+          dockerVersion: 17.09.0-ce
+          releaseType: stable
+
 - stage: Build
   displayName: Build stage
+  dependsOn: InstallDocker
   jobs:
   - job: Build
     displayName: Build
