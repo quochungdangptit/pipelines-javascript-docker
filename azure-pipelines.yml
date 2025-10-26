@@ -52,7 +52,7 @@ stages:
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
     pool:
-      pool: azdevopsagent
+      name: azdevopsagent
     environment: 'quochungdangptitpipelinesjavascriptdocker-1935.default'
     strategy:
       runOnce:
@@ -81,7 +81,7 @@ stages:
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     pool:
-      pool: azdevopsagent
+      name: azdevopsagent
 
     environment: 'quochungdangptitpipelinesjavascriptdocker-1935.$(k8sNamespaceForPR)'
     strategy:
