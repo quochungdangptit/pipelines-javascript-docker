@@ -25,13 +25,26 @@ variables:
   k8sNamespaceForPR: 'review-app-$(System.PullRequest.PullRequestId)'
 
 stages:
+- stage: InstallDocker
+  displayName: Install Docker stage
+  jobs:
+    - job: InstallDocker
+      displayName: Install Docker job
+      pool:
+        name: azdevopsagent
+      steps:
+      - task: DockerInstaller@0
+        displayName: Docker Installer
+        inputs:
+          dockerVersion: 17.09.0-ce
+          releaseType: stable
 - stage: Build
   displayName: Build stage
   jobs:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      name: azdevopsagent
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -55,7 +68,7 @@ stages:
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
     pool:
-      vmImage: $(vmImageName)
+      name: azdevopsagent
     environment: 'quochungdangptitpipelinesjavascriptdocker-1100.default'
     strategy:
       runOnce:
@@ -84,7 +97,7 @@ stages:
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     pool:
-      vmImage: $(vmImageName)
+      name: azdevopsagent
 
     environment: 'quochungdangptitpipelinesjavascriptdocker-1100.$(k8sNamespaceForPR)'
     strategy:
