@@ -29,9 +29,5 @@ stages:
         repository: 'dockerimage'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'hungdangacr003'
-        repository: 'dockerimage'
-        command: 'start'
+
     
